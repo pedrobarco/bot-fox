@@ -1,11 +1,10 @@
-const Discord = require ('discord.js');
-const bot = new Discord.Client();
+const commando = require('discord.js-commando');
 
-bot.on('message', (message) =>{
+const bot = new commando.Client();
 
-    if(message.content == '!ping') {
-        message.channel.sendMessage('Hey there!');
-    }
-});
+bot.registry.registerGroup('random', 'Random');
+bot.registry.registerDefaults();
+bot.registry.registerCommandsIn(__dirname + "/commands");
 
-bot.login('MjgxNTYzODYyODQxNDI1OTIx.C4drCw.0YtHf6WbAF-hWbu321eOuFz7Kck');
+
+bot.login('MjgxNTYzODYyODQxNDI1OTIx.C4dtkg.343Zvq5X-bfgyGQZzho-EA0o9kI');
