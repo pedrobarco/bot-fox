@@ -1,0 +1,22 @@
+{
+  "name": "bot-fox",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedrobarco/bot-fox.git"
+  },
+  "author": "Pedro Barco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedrobarco/bot-fox/issues"
+  },
+  "homepage": "https://github.com/pedrobarco/bot-fox#readme",
+  "dependencies": {
+    "discord.js-commando": "^0.9.0"
+  }
+}
