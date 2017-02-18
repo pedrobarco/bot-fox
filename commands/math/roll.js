@@ -7,19 +7,19 @@ class RollCommand extends commando.Command {
             name: 'roll',
             group: 'math',
             memberName: 'roll',
-            description: 'Generates random number between two limits',
+            description: 'generates a random number between two limits',
             examples: ['roll 0 100'],
         });
     }
 
     async run(message, args) {
-        var args = args.split(" ");
-        var roll = Math.floor(Math.random() * args[1] + args[0]);
+        var args_aux = args.split(" ");
+        var roll = Math.floor(Math.random() * args_aux[1] + args_aux[0]);
 
-        if(args.length == 2 && Number.isInteger(roll)){
+        if(args_aux.length == 2 && Number.isInteger(roll)){
             message.reply("You rolled a " + roll);
         } else {
-            message.reply("Something went wrong... Use ONLY two integer numbers so I can calculate your roll.");
+            message.reply("Something went wrong... Use '!help' command to know more about this.");
         }
     }
 }
