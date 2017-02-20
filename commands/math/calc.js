@@ -1,6 +1,6 @@
 const commando = require('discord.js-commando');
 
-class RollCommand extends commando.Command {
+class CalcCommand extends commando.Command {
 
     constructor(client) {
         super(client, {
@@ -22,4 +22,4 @@ class RollCommand extends commando.Command {
     }
 }
 
-module.exports = RollCommand;
+module.exports = CalcCommand;
