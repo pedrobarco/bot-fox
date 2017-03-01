@@ -6,6 +6,7 @@ const bot = new commando.Client({
 
 bot.registry
         .registerGroup('math', 'Math')
+        .registerGroup('games', 'Games')
         .registerDefaults()
         .registerCommandsIn(__dirname + "/commands");
 
