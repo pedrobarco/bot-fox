@@ -14,7 +14,10 @@ class RollCommand extends commando.Command {
 
     async run(message, args) {
         var args_aux = args.split(" ");
-        var roll = Math.floor(Math.random() * args_aux[1] + args_aux[0]);
+
+        var min = Math.ceil(args_aux[0]);
+        var max = Math.floor(args_aux[1]);
+        var roll = Math.floor(Math.random() * (max - min)) + min;
 
         if(args_aux.length == 2 && Number.isInteger(roll)){
             message.reply("You rolled a " + roll);
