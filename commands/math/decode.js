@@ -15,7 +15,12 @@ class DecodeCommand extends commando.Command {
     async run(message, args) {
         var args_aux = args.split(" ");
         var result = "";
-        if(args_aux[0] == "-r"){
+        
+        if(args.length == 0){
+            message.reply("Something went wrong... Use '!help' command to know more about this.");
+        }
+
+        else if(args_aux[0] == "-r"){
             var parser = args.split("-r ");
             message.reply(parser[1]);
             for (var i = 0; i < parser[1].length; i++) {
@@ -26,10 +31,11 @@ class DecodeCommand extends commando.Command {
                 result += String.fromCharCode(parseInt(args_aux[i], 2));
             }
         }
+
         if (result == ""){
             message.reply("Something went wrong... Use '!help' command to know more about this.");
         }
-        message.reply(result);
+        else { message.reply(result); }
     }
 }
 

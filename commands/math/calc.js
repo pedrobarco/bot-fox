@@ -13,7 +13,7 @@ class CalcCommand extends commando.Command {
     }
 
     async run(message, args) {
-        if(args.length == null){
+        if(args.length == 0){
             message.reply("Something went wrong... Use '!help' command to know more about this.");
         } else {
             var result = eval(args);
