@@ -40,7 +40,7 @@ Bot already has all the support you need.
 
 > NOTE: Type "!help" on your discord server and you will be helped for sure!
 
-## [License](https://github.com/pedrobarco/bot-fox/LICENSE)
+## [License](https://github.com/pedrobarco/bot-fox/blob/master/LICENSE)
 
 MIT © [Pedro Barco](https://github.com/pedrobarco)
 
