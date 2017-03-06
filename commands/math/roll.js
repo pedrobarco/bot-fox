@@ -17,12 +17,17 @@ class RollCommand extends commando.Command {
 
         var min = Math.round(args_aux[0]);
         var max = Math.round(args_aux[1]);
-        var roll = Math.round(Math.random() * (max - min)) + min;
+        if (isNaN(min) || isNaN(max)) {
+            message.reply("the limits must be numbers")
+        }
+        else {
+            var roll = Math.round(Math.random() * (max - min)) + min;
 
-        if(args_aux.length == 2){
-            message.reply("You rolled a " + roll);
-        } else {
-            message.reply("Something went wrong... Use '!help' command to know more about this.");
+            if(args_aux.length == 2){
+                message.reply("You rolled a " + roll);
+            } else {
+                message.reply("Something went wrong... Use '!help' command to know more about this.");
+            }
         }
     }
 }
