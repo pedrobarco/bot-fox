@@ -15,11 +15,11 @@ class RollCommand extends commando.Command {
     async run(message, args) {
         var args_aux = args.split(" ");
 
-        var min = Math.ceil(args_aux[0]);
-        var max = Math.floor(args_aux[1]);
-        var roll = Math.floor(Math.random() * (max - min)) + min;
+        var min = Math.round(args_aux[0]);
+        var max = Math.round(args_aux[1]);
+        var roll = Math.round(Math.random() * (max - min)) + min;
 
-        if(args_aux.length == 2 && Number.isInteger(roll)){
+        if(args_aux.length == 2){
             message.reply("You rolled a " + roll);
         } else {
             message.reply("Something went wrong... Use '!help' command to know more about this.");
