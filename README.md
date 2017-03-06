@@ -1,21 +1,15 @@
-<div align="center">
-<img src="media/discord.png" height="220">
-<img src="media/logo.jpg" height="220">
-<p>
-    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/pedrobarco/bot-fox.svg?style=flat-square" alt="License info" /></a>
-</p>
-</div>
-
----
+<img src="media/logo.png" height="140" align="right" />
 
 # Bot Fox - Node.js Discord Bot
+
+![MIT](https://img.shields.io/github/license/pedrobarco/bot-fox.svg?style=flat-square)
 
 ## About
 
 ### Bot Features
 
-- Math
-- Games
+- Math Functions (RNG, calculator)
+- Game Stats (faceit)
 - DataBase (sqlite)
 
 ### TODO
