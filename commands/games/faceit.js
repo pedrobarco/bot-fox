@@ -46,8 +46,7 @@ class FaceItCommand extends commando.Command {
                         message.reply("Database user not found. Use -a flag to set it.");
                         return;
                     } else {
-                        url = url + row.faceitID;
-                        getStats(url);
+                        getStats(row.faceitID);
                     }
                 }).catch(() => {
                     console.error;
@@ -55,11 +54,11 @@ class FaceItCommand extends commando.Command {
                 });
             } else {
                 var faceitID = args_aux[0];
-                url = url + faceitID;
-                getStats(url);
+                getStats(faceitID);
             }
         }
         function getStats(id) {
+            url += id;
             var options = {
                 uri: url,
                 transform: function (body) {
@@ -72,7 +71,22 @@ class FaceItCommand extends commando.Command {
                     var rankup = $('.elo-container').prev().text();
                     var stats = $('.boxStats').text();
                     rankup = rankup.replace(/you need/g, ":");
-                    message.channel.sendMessage(rank + "\n" + rankup + "\n" + stats);
+                    //message.channel.sendMessage(rank + "\n" + rankup + "\n" + stats);
+message.channel.sendEmbed({
+    color: 3447003,
+    author: {
+      name: id,
+      icon_url: 'https://files.catbox.moe/607le3.jpeg'
+    },
+    url: url,
+    description: rank,
+     footer: {
+      icon_url: message.author.avatarURL,
+      text: 'requested by ' + message.author.username
+    }
+   });
+
+
                 })
             process.on('unhandledRejection', function (err) {
                 throw err;
