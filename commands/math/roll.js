@@ -1,4 +1,5 @@
 const commando = require('discord.js-commando');
+const Discord = require("discord.js");
 
 class RollCommand extends commando.Command {
 
@@ -24,11 +25,18 @@ class RollCommand extends commando.Command {
             var roll = Math.round(Math.random() * (max - min)) + min;
 
             if(args_aux.length == 2){
-                message.reply("You rolled a " + roll);
+                //message.reply("You rolled a " + roll);
+                    const embed = new Discord.RichEmbed()
+                        .setColor(0x3333BB)
+                        .addField('You rolled...', roll)
+                        .setFooter('requested by ' + message.author.username, message.author.avatarURL)
+                    message.channel.sendEmbed(embed);
+
             } else {
                 message.reply("Something went wrong... Use '!help' command to know more about this.");
             }
         }
+
     }
 }
 
