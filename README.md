@@ -27,9 +27,9 @@
 **Node.js 7.0.0 or newer is required.**
 
 ```bash
-    git clone https://www.github.com/pedrobarco/bot-fox.git
-    cd bot-fox/
-    node --harmony .
+git clone https://www.github.com/pedrobarco/bot-fox.git
+cd bot-fox/
+node --harmony .
 ```
 
 ## Help
