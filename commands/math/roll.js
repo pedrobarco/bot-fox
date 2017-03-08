@@ -22,7 +22,7 @@ class RollCommand extends commando.Command {
     var roll;
 
     if (args_aux.length == 1) {
-      message.sendMessage("Something went wrong... Use '!help' command to know more about this.");
+      message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
     }
     else {
       if (args_aux.length == 2 && (!(isNaN(min) || isNaN(max)))) {

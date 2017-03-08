@@ -67,20 +67,26 @@ class FaceItCommand extends commando.Command {
         var elo = $('.customh3 span').eq(0).text();
         var level = $('.customh3 span').eq(1).text();
         var rankup = $('.elo-container').prev().text();
-        var stats = $('.boxStats').text();
+        var rankup_aux = rankup.split(" ");
+        level += ' (' + rankup_aux[6] + ' points to level ' + rankup_aux[3] + ')';
+        var other = $('.boxStats').text();
         var avatar = $('#userView img').attr('src');
-        rankup = rankup.replace(/you need/g, ":");
-        var alert = $('.alert').text();
+        //rankup = rankup.replace(/you need/g, ":");
+        var alert = $('.alert').hasClass('alert');
         var stats = 'Elo: ' + elo + '\nLevel: ' + level;
 
-        const embed = new Discord.RichEmbed()
-        .setAuthor(id, 'https://files.catbox.moe/t0jwf4.jpg')
-        .setColor(0xFF3517)
-        .setURL(url)
-        .addField('Stats', stats)
-        .setFooter('requested by ' + message.author.username, message.author.avatarURL)
-        message.channel.sendEmbed(embed);
-
+        if (alert) {
+          message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
+        }
+        else {
+          const embed = new Discord.RichEmbed()
+          .setAuthor(id, 'https://files.catbox.moe/t0jwf4.jpg')
+          .setColor(0xFF3517)
+          .setURL(url)
+          .addField('Stats', stats)
+          .setFooter('requested by ' + message.author.username, message.author.avatarURL)
+          message.channel.sendEmbed(embed);
+        }
       })
       process.on('unhandledRejection', function (err) {
         throw err;

@@ -8,15 +8,19 @@
 
 ### Bot Features
 
-- Math Functions (RNG, calculator)
+- RNG
 - Game Stats (faceit)
 - DataBase (sqlite)
 
 ### TODO
 
+- [ ] Debugging Support
 - [ ] Music/Streaming
-- [ ] HLTV.org
+- [ ] Social Media
 - [ ] Twitch
+- [ ] HLTV.org
+- [ ] Reddit
+- [ ] Steam
 
 ## Install & Setup
 
@@ -37,4 +41,3 @@ Bot already has all the support you need.
 ## [License](https://github.com/pedrobarco/bot-fox/blob/master/LICENSE)
 
 MIT © [Pedro Barco](https://github.com/pedrobarco)
-

@@ -13,7 +13,7 @@ bot.registry
     .registerCommandsIn(__dirname + "/commands");
 
 bot.on('ready', () => {
-  console.log('Ready!');
+  console.log('Connected to ' + bot.server);
 });
 
 bot.on('message', message => {
