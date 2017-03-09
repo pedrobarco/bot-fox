@@ -5,7 +5,7 @@ class RedditCommand extends commando.Command {
 	constructor(client) {
 		super(client, {
 			name: 'reddit',
-			group: 'math',
+			group: 'social',
 			memberName: 'reddit',
 			description: 'get the latest post that a certain user made on reddit',
 			examples: ['reddit <username>'],
