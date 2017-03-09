@@ -15,7 +15,7 @@ class RedditCommand extends commando.Command {
 	async run(message, args) {
 		var args_aux = args.split(" ");
 
-		message.reply("https://www.reddit.com/user/" + args_aux[0] + "/submitted/?sort=new")
+		message.reply("https://www.reddit.com/r/GlobalOffensiveTrade/search?q=" + args_aux[0] + "&sort=new&restrict_sr=on")
 	}
 }
 

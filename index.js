@@ -1,6 +1,6 @@
 const commando = require('discord.js-commando');
-const sql = require('sqlite');
-sql.open('./db.sqlite');
+
+// TODO: database creation
 
 const bot = new commando.Client({
   owner: '279689384582840321'

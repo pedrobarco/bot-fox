@@ -1,14 +1,10 @@
 const commando = require('discord.js-commando');
-const sql = require('sqlite');
-sql.open('./db.sqlite');
-
+const Discord = require('discord.js');
 
 var request = require('request');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 
-
-const Discord = require('discord.js');
 
 
 class FaceItCommand extends commando.Command {
@@ -18,43 +14,22 @@ class FaceItCommand extends commando.Command {
       name: 'faceit',
       group: 'games',
       memberName: 'faceit',
-      description: 'Get a faceit user stats. Get your own stats by adding [-a] your username to database.',
-      examples: ['faceit <faceituserID>', 'faceit [-a] <myfaceituserID>', 'faceit'],
+      description: 'Get a faceit user stats. Get your own stats by adding your username to database (!db help).',
+      examples: ['faceit <faceituserID>', 'faceit'],
     });
   }
 
   async run(message, args) {
     var args_aux = args.split(" ");
     var url = "http://faceitstats.com/profile,name,"
-    var new_faceitID = args_aux[1];
+    var id;
 
-    sql.get(`SELECT * FROM userdata WHERE userId ='${message.author.id}'`).then(row => {
-      if (!row) {
-        if (args_aux[0] == "-a") {
-          sql.run('INSERT INTO userdata (userId, faceitID) VALUES (?, ?)', [message.author.id, new_faceitID]);
-          message.channel.sendMessage("User added successfully. Type '!faceit' to see your stats.");
-        } else {
-          message.channel.sendMessage("Database user not found. Use -a flag to set it.");
-          return;
-        }
-      } else {
-        if (args_aux[0] == "-a") {
-          sql.run(row.faceitID = new_faceitID); //  TODO: UPDATE users SET role=99 WHERE name='Fred'
-          message.channel.sendMessage("User updated successfully.");
-        } else if (args.length == 0) {
-          getStats(row.faceitID);
-        } else {
-          var faceitID = args_aux[0];
-          getStats(faceitID);
-        }
-      }
-    }).catch(() => {
-      console.error;
-      sql.run('CREATE TABLE IF NOT EXISTS userdata (userId TEXT, faceitID TEXT)').then(() => {
-        sql.run('INSERT INTO userdata (userId, faceitID) VALUES (?, ?)', [message.author.id, new_faceitID]);
-        message.channel.sendMessage("User added successfully. Type '!faceit' to see your stats.");
-      });
-    });
+    if (args.length == 0) {
+      getID(); // TODO: get faceit username from DB
+    } else {
+      id = args_aux[0];
+    }
+    getStats(id);
 
     function getStats(id) {
       url += id;
@@ -94,8 +69,7 @@ class FaceItCommand extends commando.Command {
 
         if (alert) {
           message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
-        }
-        else {
+        } else {
           const embed = new Discord.RichEmbed()
           .setAuthor(id, 'https://files.catbox.moe/t0jwf4.jpg')
           .setColor(0xFF3517)
