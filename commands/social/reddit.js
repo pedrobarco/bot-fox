@@ -7,7 +7,7 @@ class RedditCommand extends commando.Command {
 			name: 'reddit',
 			group: 'social',
 			memberName: 'reddit',
-			description: 'get the latest post that a certain user made on reddit',
+			description: 'Get the latest post that a certain user made on reddit',
 			examples: ['reddit <username>'],
 		});
 	}

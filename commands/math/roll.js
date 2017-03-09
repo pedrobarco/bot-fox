@@ -8,7 +8,7 @@ class RollCommand extends commando.Command {
       name: 'roll',
       group: 'math',
       memberName: 'roll',
-      description: 'generates a random number between two limits or random word given a list',
+      description: 'Generates a random number between two limits or random word given a list',
       examples: ['roll 0 100', 'roll foo bar 1 2 3'],
     });
   }

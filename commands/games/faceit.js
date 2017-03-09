@@ -17,7 +17,7 @@ class FaceItCommand extends commando.Command {
       group: 'games',
       memberName: 'faceit',
       description: 'Get a faceit user stats. Get your own stats by adding [-a] your username to database.',
-      examples: ['faceit [faceit-id]', 'faceit [-a] [faceit-id]', 'faceit'],
+      examples: ['faceit <faceituserID>', 'faceit [-a] <myfaceituserID>', 'faceit'],
     });
   }
 
