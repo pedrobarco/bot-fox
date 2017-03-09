@@ -1,5 +1,7 @@
 const commando = require('discord.js-commando');
 const sql = require('sqlite');
+sql.open('./db.sqlite');
+
 
 var request = require('request');
 var rp = require('request-promise');
@@ -37,7 +39,7 @@ class FaceItCommand extends commando.Command {
         }
       } else {
         if (args_aux[0] == "-a") {
-          row.faceitID = new_faceitID;
+          sql.run(row.faceitID = new_faceitID); //  TODO: UPDATE users SET role=99 WHERE name='Fred'
           message.channel.sendMessage("User updated successfully.");
         } else if (args.length == 0) {
           getStats(row.faceitID);
@@ -66,14 +68,29 @@ class FaceItCommand extends commando.Command {
       .then(function ($) {
         var elo = $('.customh3 span').eq(0).text();
         var level = $('.customh3 span').eq(1).text();
+
         var rankup = $('.elo-container').prev().text();
         var rankup_aux = rankup.split(" ");
         level += ' (' + rankup_aux[6] + ' points to level ' + rankup_aux[3] + ')';
-        var other = $('.boxStats').text();
+
+        var matches_win = $('.boxStats span').eq(3).text();
+        var matches_ratio = $('.boxStats span').eq(7).text();
+        var matches = Math.round(eval(matches_win / (matches_ratio / 100)));
+
+        var kd = $('.boxStats span').eq(1).text();
+        var hs = $('.boxStats span').eq(5).text();
+
+        var matches_win = $('.boxStats span').eq(3).text();
+
+
         var avatar = $('#userView img').attr('src');
-        //rankup = rankup.replace(/you need/g, ":");
         var alert = $('.alert').hasClass('alert');
-        var stats = 'Elo: ' + elo + '\nLevel: ' + level;
+
+        var stats = 'Elo: ' + elo +
+                    '\nLevel: ' + level +
+                    '\nMatches: ' + matches +
+                    '\nK/D: ' + kd +
+                    '\nHS: ' + hs + '%';
 
         if (alert) {
           message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
@@ -92,7 +109,7 @@ class FaceItCommand extends commando.Command {
         throw err;
       });
       process.on('uncaughtException', function (err) {
-        message.channel.reply("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
+        message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
       });
     }
   }
