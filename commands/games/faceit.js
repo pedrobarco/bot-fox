@@ -25,7 +25,7 @@ class FaceItCommand extends commando.Command {
     var id;
 
     if (args.length == 0) {
-      getID(); // TODO: get faceit username from DB
+      getID(); // TODO: get faceitID from discord_db
     } else {
       id = args_aux[0];
     }

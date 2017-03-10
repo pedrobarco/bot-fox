@@ -1,6 +1,7 @@
 const commando = require('discord.js-commando');
 
-// TODO: database creation
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('discord_db');
 
 const bot = new commando.Client({
   owner: '279689384582840321'
@@ -10,6 +11,7 @@ bot.registry
 .registerGroup('math', 'Math')
 .registerGroup('games', 'Games')
 .registerGroup('social', 'Social')
+.registerGroup('database', 'Database')
 .registerDefaults()
 .registerCommandsIn(__dirname + "/commands");
 
