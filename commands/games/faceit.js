@@ -24,7 +24,7 @@ class FaceItCommand extends commando.Command {
 
   async run(message, args) {
     var args_aux = args.split(" ");
-    var url = "http://faceitstats.com/profile,name,"
+    var url = "http://www.faceitstats.com/profile,name,"
 
     if (args.length == 0) {
       db.serialize(function() {

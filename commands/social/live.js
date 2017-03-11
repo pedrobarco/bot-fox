@@ -1,4 +1,5 @@
 const commando = require('discord.js-commando');
+const Discord = require('discord.js');
 
 var request = require('request');
 var rp = require('request-promise');
@@ -16,10 +17,13 @@ class LiveCommand extends commando.Command {
 		});
 	}
 
+
 	async run(message, args) {
 		var args_aux = args.split(" ");
-		var url = "http://twitch.tv/";
-		var id = args_aux[0];
+		var url = "https://api.twitch.tv/kraken/streams/";
+		var id = args_aux[0] + "?oauth_token=efrlnv1svzykmpagi2lz5loorsvu8f";
+
+		getStats(id);
 
 		function getStats(id) {
       url += id;
@@ -31,10 +35,26 @@ class LiveCommand extends commando.Command {
       };
       rp(options)
       .then(function ($) {
-        var live = $('.balloon.balloon--tooltip.balloon--down.balloon--center').hasClass('.balloon.balloon--tooltip.balloon--down.balloon--center');
+        var parsed =  JSON.parse($.text());
+				var live = parsed.stream;
 
-        if (live) {
-          message.channel.sendMessage("LIVE");
+        if (live != null) {
+					var liveURL = live.channel.url;
+
+					var stats = 'Game: ' + live.channel.game +
+	        '\nViews: ' + live.channel.views +
+	        '\nFollowers: ' + live.channel.followers;
+
+					const embed = new Discord.RichEmbed()
+					.setAuthor(live.channel.name, live.channel.logo)
+					.setDescription(live.channel.status)
+					.setColor(0x6441A4)
+					.setURL(liveURL)
+					.addField('Live!', stats)
+					.setFooter('requested by ' + message.author.username, message.author.avatarURL)
+					message.channel.sendEmbed(embed);
+
+
         } else {
 					message.channel.sendMessage("Beep Boop! Oh no, not live anymore...");
         }
