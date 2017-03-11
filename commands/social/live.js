@@ -46,7 +46,7 @@ class LiveCommand extends commando.Command {
 	        '\nFollowers: ' + live.channel.followers;
 
 					const embed = new Discord.RichEmbed()
-					.setAuthor(live.channel.name, live.channel.logo)
+					.setAuthor(live.channel.name, 'https://files.catbox.moe/w2dr5d.jpg')
 					.setDescription(live.channel.status)
 					.setColor(0x6441A4)
 					.setURL(liveURL)
