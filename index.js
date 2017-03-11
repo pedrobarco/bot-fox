@@ -7,6 +7,12 @@ const bot = new commando.Client({
   owner: '279689384582840321'
 });
 
+db.on("error", function(error) {
+  console.log("Getting an error : ", error);
+});
+
+db.close();
+
 bot.registry
 .registerGroup('math', 'Math')
 .registerGroup('games', 'Games')

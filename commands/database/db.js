@@ -17,17 +17,32 @@ class DBCommand extends commando.Command {
 
 	async run(message, args) {
 		var args_aux = args.split(" ");
-    if (args_aux.length < 4) {
-      message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
-    }
-    else {
-      var flag = args_aux[2];
-      var type = args_aux[3] + 'ID';
-      var id = args_aux[4];
-      if (flag == "-a") {
-        // TODO: add user to database
-      }
-    }
+
+		if (args_aux.length < 3) {
+			message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+		} else {
+			var flag = args_aux[0];
+			var type = args_aux[1] + 'ID';
+			var id = args_aux[2];
+
+			if (flag == "-a") {
+				db.serialize(function() {
+					db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function(error, row) {
+						if (row !== undefined) {
+							db.run(`UPDATE userdata SET ${type} = ? WHERE discordID = ?`, id, message.author.id);
+							message.channel.sendMessage("User info updated!");
+						} else {
+							var stmt = db.prepare(`INSERT INTO userdata (discordID, ${type}) VALUES (?,?)`);
+							stmt.run(message.author.id, id);
+							stmt.finalize();
+							message.channel.sendMessage("User info created!");
+						}
+					});
+				});
+			} else {
+				message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+			}
+		}
 	}
 }
 

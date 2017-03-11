@@ -5,6 +5,9 @@ var request = require('request');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('discord_db');
+
 
 
 class FaceItCommand extends commando.Command {
@@ -22,14 +25,24 @@ class FaceItCommand extends commando.Command {
   async run(message, args) {
     var args_aux = args.split(" ");
     var url = "http://faceitstats.com/profile,name,"
-    var id;
 
     if (args.length == 0) {
-      getID(); // TODO: get faceitID from discord_db
+      db.serialize(function() {
+        db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function(error, row) {
+          if (row !== undefined && row.faceitID !== null) {
+            getStats(row.faceitID);
+          } else {
+            getStats(null);
+          }
+        });
+      });
     } else {
-      id = args_aux[0];
+      getStats(args_aux[0]);
     }
-    getStats(id);
+
+    // ######################
+    // # AUX FUNCTIONS HERE #
+    // ######################
 
     function getStats(id) {
       url += id;
@@ -51,24 +64,22 @@ class FaceItCommand extends commando.Command {
         var matches_win = $('.boxStats span').eq(3).text();
         var matches_ratio = $('.boxStats span').eq(7).text();
         var matches = Math.round(eval(matches_win / (matches_ratio / 100)));
+        var matches_win = $('.boxStats span').eq(3).text();
 
         var kd = $('.boxStats span').eq(1).text();
         var hs = $('.boxStats span').eq(5).text();
-
-        var matches_win = $('.boxStats span').eq(3).text();
-
 
         var avatar = $('#userView img').attr('src');
         var alert = $('.alert').hasClass('alert');
 
         var stats = 'Elo: ' + elo +
-                    '\nLevel: ' + level +
-                    '\nMatches: ' + matches +
-                    '\nK/D: ' + kd +
-                    '\nHS: ' + hs + '%';
+        '\nLevel: ' + level +
+        '\nMatches: ' + matches +
+        '\nK/D: ' + kd +
+        '\nHS: ' + hs + '%';
 
         if (alert) {
-          message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
+          message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
         } else {
           const embed = new Discord.RichEmbed()
           .setAuthor(id, 'https://files.catbox.moe/t0jwf4.jpg')
@@ -83,7 +94,7 @@ class FaceItCommand extends commando.Command {
         throw err;
       });
       process.on('uncaughtException', function (err) {
-        message.channel.sendMessage("Beep Boop! That user does not have rank. Maybe you didn't type it correctly.");
+        message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
       });
     }
   }

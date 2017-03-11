@@ -38,3 +38,6 @@ jspm_packages
 
 # VS CODE options
 .vscode
+
+# atom imdone plugin
+.imdone
