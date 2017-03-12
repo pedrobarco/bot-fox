@@ -42,8 +42,8 @@ class LiveCommand extends commando.Command {
 					var liveURL = live.channel.url;
 
 					var stats = 'Game: ' + live.channel.game +
-	        '\nViews: ' + live.channel.views +
-	        '\nFollowers: ' + live.channel.followers;
+					'\nFollowers: ' + live.channel.followers +
+	        '\nViews: ' + live.channel.views;
 
 					const embed = new Discord.RichEmbed()
 					.setAuthor(live.channel.name, 'https://files.catbox.moe/w2dr5d.jpg')
@@ -53,7 +53,6 @@ class LiveCommand extends commando.Command {
 					.addField('Live!', stats)
 					.setFooter('requested by ' + message.author.username, message.author.avatarURL)
 					message.channel.sendEmbed(embed);
-
 
         } else {
 					message.channel.sendMessage("Beep Boop! Oh no, not live anymore...");
