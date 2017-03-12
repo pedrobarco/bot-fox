@@ -54,23 +54,11 @@ bot.on('warn', (e) => console.warn(e));
 
 bot.login('MjgxNTYzODYyODQxNDI1OTIx.C4dtkg.343Zvq5X-bfgyGQZzho-EA0o9kI');
 
-setTimeout(updateStatus, 3000);
-setInterval(updateStatus,1800000);
+// ######################
+// # AUX FUNCTIONS HERE #
+// ######################
 
-function updateStatus() {
-
-  setTimeout(function () {
-    var oldID = bot.channels.find('name','twitch').id;
-    bot.channels.find('name', 'twitch').clone('twitch');
-    bot.channels.get(oldID).delete();
-  }, 500);
-
-  setTimeout( function () {
-  bot.channels.find('name', 'twitch').setPosition(1);
-}, 1000);
-
-  setTimeout(checkTwitch, 1500);
-}
+// TODO: cronjob checkTwitch function
 
 function checkTwitch() {
   var streams = ['zorlakoka','shroud','p4wnyhof','a_seagull','jcarverpoker'];

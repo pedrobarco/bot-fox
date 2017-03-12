@@ -5,18 +5,17 @@ var request = require('request');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 
-class LiveCommand extends commando.Command {
+class TwitchCommand extends commando.Command {
 
 	constructor(client) {
 		super(client, {
-			name: 'live',
+			name: 'twitch',
 			group: 'social',
-			memberName: 'live',
+			memberName: 'twitch',
 			description: 'Check if twitch stream is live',
-			examples: ['live <twitchID>'],
+			examples: ['twitch <twitchID>'],
 		});
 	}
-
 
 	async run(message, args) {
 		var args_aux = args.split(" ");
@@ -24,6 +23,10 @@ class LiveCommand extends commando.Command {
 		var id = args_aux[0] + "?oauth_token=efrlnv1svzykmpagi2lz5loorsvu8f";
 
 		getStats(id);
+
+		// ######################
+		// # AUX FUNCTIONS HERE #
+		// ######################
 
 		function getStats(id) {
       url += id;
@@ -69,4 +72,4 @@ class LiveCommand extends commando.Command {
 	}
 }
 
-module.exports = LiveCommand;
+module.exports = TwitchCommand;
