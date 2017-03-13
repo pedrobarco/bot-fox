@@ -8,8 +8,10 @@ var request = require('request');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 
+var config = require('./settings');
+
 const bot = new commando.Client({
-  owner: '279689384582840321'
+  owner: config.owner
 });
 
 db.on("error", function(error) {
@@ -17,10 +19,13 @@ db.on("error", function(error) {
 });
 
 bot.registry
-.registerGroup('math', 'Math')
-.registerGroup('games', 'Games')
-.registerGroup('social', 'Social')
-.registerGroup('database', 'Database')
+.registerGroups([
+  ['math', 'Math'],
+  ['games', 'Games'],
+  ['social', 'Social'],
+  ['database', 'Database']
+])
+
 .registerDefaults()
 .registerCommandsIn(__dirname + "/commands");
 
@@ -52,7 +57,7 @@ bot.on('message', (message) => {
 bot.on('error', (e) => console.error(e));
 bot.on('warn', (e) => console.warn(e));
 
-bot.login('MjgxNTYzODYyODQxNDI1OTIx.C4dtkg.343Zvq5X-bfgyGQZzho-EA0o9kI');
+bot.login(config.token);
 
 // ######################
 // # AUX FUNCTIONS HERE #
@@ -61,11 +66,11 @@ bot.login('MjgxNTYzODYyODQxNDI1OTIx.C4dtkg.343Zvq5X-bfgyGQZzho-EA0o9kI');
 // TODO: cronjob checkTwitch function
 
 function checkTwitch() {
-  var streams = ['zorlakoka','shroud','p4wnyhof','a_seagull','jcarverpoker'];
+  var streams = ['zorlakoka'];
 
   for (var i = 0; i < streams.length; i++) {
     var url = "https://api.twitch.tv/kraken/streams/";
-    var id = streams[i] + '?oauth_token=efrlnv1svzykmpagi2lz5loorsvu8f';
+    var id = streams[i] + '?oauth_token=' + config.twitchAPIkey;
     url += id;
     var options = {
       uri: url,

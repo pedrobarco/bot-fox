@@ -5,6 +5,8 @@ var request = require('request');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 
+var config = require('./settings');
+
 class TwitchCommand extends commando.Command {
 
 	constructor(client) {
@@ -20,7 +22,7 @@ class TwitchCommand extends commando.Command {
 	async run(message, args) {
 		var args_aux = args.split(" ");
 		var url = "https://api.twitch.tv/kraken/streams/";
-		var id = args_aux[0] + "?oauth_token=efrlnv1svzykmpagi2lz5loorsvu8f";
+		var id = args_aux[0] + "?oauth_token" + config.twitchAPIkey;
 
 		getStats(id);
 
