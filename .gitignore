@@ -41,3 +41,9 @@ jspm_packages
 
 # atom imdone plugin
 .imdone
+
+# json settings
+settings.json
+
+# discord database
+discord_db
