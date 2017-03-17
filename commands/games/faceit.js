@@ -95,6 +95,9 @@ class FaceItCommand extends commando.Command {
                 message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
             });
         }
+        fs.writeFile('./db.json', JSON.stringify(db), (err) => {
+            if (err) console.error(err)
+        });
     }
 }
 
