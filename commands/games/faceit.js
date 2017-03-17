@@ -5,9 +5,8 @@ const request = require('request');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('discord_db');
-
+const fs = require("fs");
+const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 
 class FaceItCommand extends commando.Command {
 
@@ -24,17 +23,14 @@ class FaceItCommand extends commando.Command {
     async run(message, args) {
         const args_aux = args.split(" ");
         let url = "http://www.faceitstats.com/profile,name,";
-
+        let id = db[message.author.id].faceit;
         if (args.length == 0) {
-            db.serialize(function () {
-                db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function (error, row) {
-                    if (row !== undefined && row.faceitID !== null) {
-                        getStats(row.faceitID);
-                    } else {
-                        message.channel.sendMessage("Beep Boop! First add your faceit ID to database.");
-                    }
-                });
-            });
+            if (id != null) {
+                getStats(id);
+            }
+            else {
+                message.channel.sendMessage("Beep Boop! First add your faceit ID to database.");
+            }
         } else {
             getStats(args_aux[0]);
         }

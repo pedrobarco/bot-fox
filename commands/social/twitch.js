@@ -20,15 +20,10 @@ class TwitchCommand extends commando.Command {
     }
 
     async run(message, args) {
-        let args_aux = args.split(" ");
+        const args_aux = args.split(" ");
         const url = "https://api.twitch.tv/kraken/streams/" + args_aux[0] + "?oauth_token=" + config.twitchAPIkey;
 
-        if (args.length == 1) {
-            getStats(url);
-        }
-        else {
-            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
-        }
+        getStats(url);
 
         // ######################
         // # AUX FUNCTIONS HERE #

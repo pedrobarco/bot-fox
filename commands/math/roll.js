@@ -13,7 +13,7 @@ class RollCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
+    run(message, args) {
         const args_aux = args.split(" ");
         const min = Math.round(args_aux[0]);
         const max = Math.round(args_aux[1]);

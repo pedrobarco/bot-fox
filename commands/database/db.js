@@ -1,7 +1,7 @@
 const commando = require('discord.js-commando');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('discord_db');
+const fs = require("fs");
+const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 
 class DBCommand extends commando.Command {
 
@@ -10,39 +10,56 @@ class DBCommand extends commando.Command {
             name: 'db',
             group: 'database',
             memberName: 'db',
-            description: 'Database features: Add [-a] Remove [-r] Change [-c]',
-            examples: ['db -a faceit <username>'],
+            description: 'Database features: Start [-init || -start] Add [-a || --add] Remove [-r || --remove] Change [-c || --change]',
+            examples: ['db -start *start your database*', 'db -a faceit <username>'],
         });
     }
 
     async run(message, args) {
         const args_aux = args.split(" ");
-
-        if (args_aux.length < 3) {
-            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
-        } else {
-            const flag = args_aux[0];
-            const type = args_aux[1] + 'ID';
-            const id = args_aux[2];
-
-            if (flag == "-a") {
-                db.serialize(function () {
-                    db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function (error, row) {
-                        if (row !== undefined) {
-                            db.run(`UPDATE userdata SET ${type} = ? WHERE discordID = ?`, id, message.author.id);
-                            message.channel.sendMessage("User info updated!");
-                        } else {
-                            const stmt = db.prepare(`INSERT INTO userdata (discordID, ${type}) VALUES (?,?)`);
-                            stmt.run(message.author.id, id);
-                            stmt.finalize();
-                            message.channel.sendMessage("User info created!");
-                        }
-                    });
-                });
-            } else {
+        if (args_aux.length == 1) {
+            if (args_aux[0] == "-init" || args_aux[0] == "-start") {
+                if (!db[message.author.id]) {
+                    db[message.author.id] = {
+                        "steam": null,
+                        "battlenet": null,
+                        "twitch": null,
+                        "reddit": null,
+                        "youtube": null,
+                        "faceit": null
+                    };
+                    message.channel.sendMessage("User registered successfully! Now you add your users to your account like so: `!db -a <plataformID> <username>`");
+                }
+                else {
+                    message.channel.sendMessage("Beep Boop! You already have a registered account.");
+                }
+            }
+            else {
                 message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
             }
         }
+        else if (args_aux.length == 3) {
+            if (args_aux[0] == "--add" || args_aux[0] == "-a") {
+                if (!db[message.author.id]) {
+                    message.channel.sendMessage("Beep Boop! You do not have a registered account.");
+                }
+                else {
+                    if (db[message.author.id].hasOwnProperty(args_aux[1])) {
+                        db[message.author.id][args_aux[1]] = args_aux[2];
+                        message.channel.sendMessage("User updated successfully!");
+                    }
+                    else {
+                        message.channel.sendMessage("Beep Boop! Not a valid platform.");
+                    }
+                }
+            }
+            else {
+                message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+            }
+        }
+        fs.writeFile('./db.json', JSON.stringify(db), (err) => {
+            if (err) console.error(err)
+        });
     }
 }
 

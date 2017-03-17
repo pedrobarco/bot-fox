@@ -5,8 +5,8 @@ const request = require('request');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('discord_db');
+const fs = require("fs");
+const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 
 class RedditCommand extends commando.Command {
 
@@ -20,27 +20,37 @@ class RedditCommand extends commando.Command {
         });
     }
 
+    // TODO: Embed reddit link
+    // TODO: flags for upvote (done) and subreddit (in-progress)
+
     async run(message, args) {
-        let username;
-        let id;
+        const args_aux = args.split(" ");
+        let username = db[message.author.id].reddit;
 
-        await db.serialize(function () {
-            db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function (error, row) {
-                if (row !== undefined && row.redditID !== null) {
-                    username = row.redditID;
+        if (args_aux.length == 1 && args_aux[0] == '') {
+            if (username != null) {
+                message.channel.sendMessage("https://www.reddit.com/user/" + username);
+            }
+            else {
+                message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
+            }
+        }
+        else if (args_aux.length == 1 && args_aux[0] != '') {
+            if (args_aux[0] == "-up" || args_aux[0] == "--upvote") {
+                if (username != null) {
+                    message.channel.sendMessage("https://www.reddit.com/search?q=author%3A" + username + "&sort=new");
                 }
-                if (args.length == 0) {
-                    if (username != null) {
-                        message.channel.sendMessage("https://www.reddit.com/user/" + username);
-                    }
-                    else {
-                        message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
-                    }
+                else {
+                    message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
                 }
-            });
-        });
-
-        // TODO: flags for upvote and subreddit (in-progress)
+            }
+            else {
+                message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+            }
+        }
+        else {
+            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+        }
     }
 }
 

@@ -23,7 +23,6 @@
     "discord.js-commando": "latest",
     "express": "latest",
     "request": "latest",
-    "request-promise": "latest",
-    "sqlite3": "latest"
+    "request-promise": "latest"
   }
 }
