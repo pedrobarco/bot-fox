@@ -16,7 +16,7 @@ class FaceItCommand extends commando.Command {
             name: 'faceit',
             group: 'games',
             memberName: 'faceit',
-            description: 'Get a faceit user stats. Get your own stats by adding your username to database (!db help).',
+            description: 'Get a faceit user stats. Get your own stats by adding your username to database (!help db).',
             examples: ['faceit <faceituserID>', 'faceit'],
         });
     }
@@ -31,7 +31,7 @@ class FaceItCommand extends commando.Command {
                     if (row !== undefined && row.faceitID !== null) {
                         getStats(row.faceitID);
                     } else {
-                        getStats(null);
+                        message.channel.sendMessage("Beep Boop! First add your faceit ID to database.");
                     }
                 });
             });

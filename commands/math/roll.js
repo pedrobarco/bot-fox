@@ -14,12 +14,12 @@ class RollCommand extends commando.Command {
     }
 
     async run(message, args) {
-        var args_aux = args.split(" ");
-        var min = Math.round(args_aux[0]);
-        var max = Math.round(args_aux[1]);
-        var rng = Math.round(Math.random() * (max - min)) + min;
-        var string_rng = args_aux[Math.round(Math.random() * args_aux.length)];
-        var roll;
+        const args_aux = args.split(" ");
+        const min = Math.round(args_aux[0]);
+        const max = Math.round(args_aux[1]);
+        const rng = Math.round(Math.random() * (max - min)) + min;
+        const string_rng = args_aux[Math.round(Math.random() * args_aux.length)];
+        let roll;
 
         if (args_aux.length == 1) {
             message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
@@ -34,7 +34,7 @@ class RollCommand extends commando.Command {
             const embed = new Discord.RichEmbed()
                 .setAuthor(roll, 'https://files.catbox.moe/z99ldc.png')
                 .setColor(0xb6f649)
-                .setFooter('requested by ' + message.author.username, message.author.avatarURL)
+                .setFooter('requested by ' + message.author.username, message.author.avatarURL);
             message.channel.sendEmbed(embed);
         }
     }

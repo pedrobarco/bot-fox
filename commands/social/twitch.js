@@ -1,9 +1,9 @@
 const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 
-var request = require('request');
-var rp = require('request-promise');
-var cheerio = require('cheerio');
+let request = require('request');
+const rp = require('request-promise');
+const cheerio = require('cheerio');
 
 const config = require('../../settings');
 
@@ -21,18 +21,21 @@ class TwitchCommand extends commando.Command {
 
     async run(message, args) {
         let args_aux = args.split(" ");
-        var url = "https://api.twitch.tv/kraken/streams/";
-        var id = args_aux[0] + "?oauth_token=" + config.twitchAPIkey;
+        const url = "https://api.twitch.tv/kraken/streams/" + args_aux[0] + "?oauth_token=" + config.twitchAPIkey;
 
-        getStats(id);
+        if (args.length == 1) {
+            getStats(url);
+        }
+        else {
+            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+        }
 
         // ######################
         // # AUX FUNCTIONS HERE #
         // ######################
 
-        function getStats(id) {
-            url += id;
-            var options = {
+        function getStats(url) {
+            const options = {
                 uri: url,
                 transform: function (body) {
                     return cheerio.load(body);
@@ -40,13 +43,13 @@ class TwitchCommand extends commando.Command {
             };
             rp(options)
                 .then(function ($) {
-                    var parsed = JSON.parse($.text());
-                    var live = parsed.stream;
+                    const parsed = JSON.parse($.text());
+                    const live = parsed.stream;
 
                     if (live != null) {
-                        var liveURL = live.channel.url;
+                        const liveURL = live.channel.url;
 
-                        var stats = 'Game: ' + live.channel.game +
+                        const stats = 'Game: ' + live.channel.game +
                             '\nFollowers: ' + live.channel.followers +
                             '\nViews: ' + live.channel.views;
 
@@ -56,17 +59,18 @@ class TwitchCommand extends commando.Command {
                             .setColor(0x6441A4)
                             .setURL(liveURL)
                             .addField('Live!', stats)
-                            .setFooter('requested by ' + message.author.username, message.author.avatarURL)
+                            .setFooter('requested by ' + message.author.username, message.author.avatarURL);
                         message.channel.sendEmbed(embed);
 
                     } else {
                         message.channel.sendMessage("Beep Boop! Oh no, not live anymore...");
                     }
-                })
+                });
             process.on('unhandledRejection', function (err) {
                 throw err;
             });
             process.on('uncaughtException', function (err) {
+                console.log(err);
                 message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
             });
         }

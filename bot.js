@@ -1,14 +1,14 @@
 const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('discord_db');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('discord_db');
 
-var request = require('request');
-var rp = require('request-promise');
-var cheerio = require('cheerio');
+let request = require('request');
+const rp = require('request-promise');
+const cheerio = require('cheerio');
 
-var config = require('./settings');
+const config = require('./settings');
 
 const bot = new commando.Client({
     owner: config.owner
@@ -50,10 +50,6 @@ bot.on('ready', () => {
 
 });
 
-bot.on('message', (message) => {
-    if (message.author.bot) return; // Ignore bots.
-});
-
 bot.on('error', (e) => console.error(e));
 bot.on('warn', (e) => console.warn(e));
 
@@ -69,9 +65,7 @@ function checkTwitch() {
     let streams = ['zorlakoka'];
 
     for (let i = 0; i < streams.length; i++) {
-        let url = "https://api.twitch.tv/kraken/streams/";
-        let id = streams[i] + '?oauth_token=' + config.twitchAPIkey;
-        url += id;
+        let url = "https://api.twitch.tv/kraken/streams/" + streams[i] + '?oauth_token=' + config.twitchAPIkey;
         let options = {
             uri: url,
             transform: function (body) {

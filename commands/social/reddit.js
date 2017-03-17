@@ -1,4 +1,12 @@
 const commando = require('discord.js-commando');
+const Discord = require('discord.js');
+
+const request = require('request');
+const rp = require('request-promise');
+const cheerio = require('cheerio');
+
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('discord_db');
 
 class RedditCommand extends commando.Command {
 
@@ -8,15 +16,31 @@ class RedditCommand extends commando.Command {
             group: 'social',
             memberName: 'reddit',
             description: 'Get the latest post that a certain user made on reddit',
-            examples: ['reddit <username>'],
+            examples: ['reddit [-sub] <subreddit> [-u] <username>'],
         });
     }
 
     async run(message, args) {
-        var args_aux = args.split(" ");
+        let username;
+        let id;
 
-        message.reply("https://www.reddit.com/r/GlobalOffensiveTrade/search?q=" + args_aux[0] + "&sort=new&restrict_sr=on")
-        // TODO: flags for upvote and subreddit
+        await db.serialize(function () {
+            db.get(`SELECT * FROM userdata WHERE discordID=${message.author.id}`, function (error, row) {
+                if (row !== undefined && row.redditID !== null) {
+                    username = row.redditID;
+                }
+                if (args.length == 0) {
+                    if (username != null) {
+                        message.channel.sendMessage("https://www.reddit.com/user/" + username);
+                    }
+                    else {
+                        message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
+                    }
+                }
+            });
+        });
+
+        // TODO: flags for upvote and subreddit (in-progress)
     }
 }
 
