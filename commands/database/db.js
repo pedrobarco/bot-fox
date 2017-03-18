@@ -45,7 +45,7 @@ class DBCommand extends commando.Command {
                 }
                 else {
                     if (db[message.author.id].hasOwnProperty(args_aux[1])) {
-                        db[message.author.id][args_aux[1]] = args_aux[2];
+                        const obj_id = db[message.author.id][args_aux[1]] = args_aux[2];
                         message.channel.sendMessage("User updated successfully!");
                     }
                     else {

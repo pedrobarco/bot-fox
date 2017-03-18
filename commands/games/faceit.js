@@ -5,9 +5,6 @@ const request = require('request');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const fs = require("fs");
-const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
-
 class FaceItCommand extends commando.Command {
 
     constructor(client) {
@@ -21,9 +18,13 @@ class FaceItCommand extends commando.Command {
     }
 
     async run(message, args) {
+        delete require.cache[require.resolve('../../db.json')];
+        const db = require ('../../db.json');
         const args_aux = args.split(" ");
         let url = "http://www.faceitstats.com/profile,name,";
-        let id = db[message.author.id].faceit;
+        const id = db[message.author.id]["faceit"];
+        console.log(id);
+
         if (args.length == 0) {
             if (id != null) {
                 getStats(id);
@@ -95,9 +96,6 @@ class FaceItCommand extends commando.Command {
                 message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
             });
         }
-        fs.writeFile('./db.json', JSON.stringify(db), (err) => {
-            if (err) console.error(err)
-        });
     }
 }
 

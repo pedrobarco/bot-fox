@@ -5,8 +5,6 @@ const request = require('request');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const fs = require("fs");
-const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 
 class RedditCommand extends commando.Command {
 
@@ -24,8 +22,11 @@ class RedditCommand extends commando.Command {
     // TODO: flags for upvote (done) and subreddit (in-progress)
 
     async run(message, args) {
+        delete require.cache[require.resolve('../../db.json')];
+        const db = require ('../../db.json');
         const args_aux = args.split(" ");
-        let username = db[message.author.id].reddit;
+        const username = db[message.author.id]["reddit"];
+
 
         if (args_aux.length == 1 && args_aux[0] == '') {
             if (username != null) {
