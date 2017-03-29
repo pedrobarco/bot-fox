@@ -19,11 +19,10 @@ class FaceItCommand extends commando.Command {
 
     async run(message, args) {
         delete require.cache[require.resolve('../../db.json')];
-        const db = require ('../../db.json');
+        const db = require('../../db.json');
         const args_aux = args.split(" ");
-        let url = "http://www.faceitstats.com/profile,name,";
+        let url = "http://upixela.pl/faceit/profile.php?id=";
         const id = db[message.author.id]["faceit"];
-        console.log(id);
 
         if (args.length == 0) {
             if (id != null) {
@@ -51,33 +50,30 @@ class FaceItCommand extends commando.Command {
             rp(options)
                 .then(function ($) {
 
-                    const rank_span = $('.customh3 span');
-                    const elo = rank_span.eq(0).text();
-                    let level = rank_span.eq(1).text();
+                    const rank = $('.player-elo i');
+                    const elo = rank.eq(0).text();
+                    let level = rank.eq(1).text();
 
-                    const rankup = $('.elo-container').prev().text();
+                    const rankup = $('.player-reach').text();
                     const rankup_aux = rankup.split(" ");
                     level += ' (' + rankup_aux[6] + ' points to level ' + rankup_aux[3] + ')';
+                    const alert = rankup_aux[6];
 
-                    const stats_span = $('.boxStats span');
-                    let matches_win = stats_span.eq(3).text();
-                    const matches_ratio = stats_span.eq(7).text();
-                    const matches = Math.round(eval(matches_win / (matches_ratio / 100)));
-
-                    const kd = stats_span.eq(1).text();
-                    const hs = stats_span.eq(5).text();
-
-                    const alert = $('.alert').hasClass('alert');
+                    const stats_span = $('.stats_go h2');
+                    const matches = stats_span.eq(1).text();
+                    const kd = stats_span.eq(6).text();
+                    const hs = stats_span.eq(7).text();
 
                     const stats = 'Elo: ' + elo +
                         '\nLevel: ' + level +
                         '\nMatches: ' + matches +
                         '\nK/D: ' + kd +
-                        '\nHS: ' + hs + '%';
+                        '\nHS: ' + hs;
 
-                    if (alert) {
-                        message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
-                    } else {
+                    if (!alert) {
+                        message.channel.sendMessage("Beep Boop! Something went wrong... ID not found.");
+                    }
+                    else {
                         const embed = new Discord.RichEmbed()
                             .setAuthor(id, 'https://files.catbox.moe/t0jwf4.jpg')
                             .setColor(0xFF3517)
