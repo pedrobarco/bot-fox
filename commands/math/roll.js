@@ -18,7 +18,8 @@ class RollCommand extends commando.Command {
         const min = Math.round(args_aux[0]);
         const max = Math.round(args_aux[1]);
         const rng = Math.round(Math.random() * (max - min)) + min;
-        const string_rng = args_aux[Math.round(Math.random() * args_aux.length)];
+        const formula = Math.round(Math.random() * (args_aux.length - 1));
+        const string_rng = args_aux[formula];
         let roll;
 
         if (args_aux.length == 1) {
