@@ -5,12 +5,12 @@ const fs = require("fs");
 fs.stat("./db.json", function(err, stat) {
     if(err == null) {
         console.log("db.json already exists");
-    } else if(err.code == 'ENOENT') {
-        fs.writeFile("./db.json", "{}");
+    } else if (err.code == 'ENOENT') {
+        fs.writeFileSync("./db.json", "{}");
+        console.log("db.json created");
     }
+    const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 });
-
-const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 
 class DBCommand extends commando.Command {
 
