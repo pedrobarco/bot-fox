@@ -1,21 +1,8 @@
 const commando = require('discord.js-commando');
-const Discord = require('discord.js');
-
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('discord_db');
-
-let request = require('request');
-const rp = require('request-promise');
-const cheerio = require('cheerio');
-
 const config = require('./settings');
 
 const bot = new commando.Client({
     owner: config.owner
-});
-
-db.on("error", function (error) {
-    console.log("Getting an error : ", error);
 });
 
 bot.registry
@@ -54,44 +41,3 @@ bot.on('error', (e) => console.error(e));
 bot.on('warn', (e) => console.warn(e));
 
 bot.login(config.token);
-
-// ######################
-// # AUX FUNCTIONS HERE #
-// ######################
-
-// TODO: cronjob checkTwitch function
-
-function checkTwitch() {
-    let streams = ['zorlakoka'];
-
-    for (let i = 0; i < streams.length; i++) {
-        let url = "https://api.twitch.tv/kraken/streams/" + streams[i] + '?oauth_token=' + config.twitchAPIkey;
-        let options = {
-            uri: url,
-            transform: function (body) {
-                return cheerio.load(body);
-            }
-        };
-        rp(options)
-            .then(function ($) {
-                let parsed = JSON.parse($.text());
-                let live = parsed.stream;
-
-                if (live != null) {
-                    let liveURL = live.channel.url;
-
-                    let stats = 'Game: ' + live.channel.game +
-                        '\nFollowers: ' + live.channel.followers +
-                        '\nViews: ' + live.channel.views;
-
-                    const embed = new Discord.RichEmbed()
-                        .setAuthor(live.channel.name, live.channel.logo)
-                        .setDescription(live.channel.status)
-                        .setColor(0x6441A4)
-                        .setURL(liveURL)
-                        .addField('Live!', stats);
-                    bot.channels.find('name', 'twitch').sendEmbed(embed);
-                }
-            })
-    }
-}

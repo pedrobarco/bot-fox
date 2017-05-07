@@ -1,15 +1,17 @@
 const commando = require('discord.js-commando');
+const Discord = require('discord.js');
 
 const fs = require("fs");
+let db;
 
-fs.stat("./db.json", function(err, stat) {
-    if(err == null) {
+fs.stat("./db.json", function (err, stat) {
+    if (err == null) {
         console.log("db.json already exists");
     } else if (err.code == 'ENOENT') {
         fs.writeFileSync("./db.json", "{}");
         console.log("db.json created");
     }
-    const db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 });
 
 class DBCommand extends commando.Command {
@@ -37,10 +39,26 @@ class DBCommand extends commando.Command {
                         "youtube": null,
                         "faceit": null
                     };
-                    message.channel.sendMessage("User registered successfully! Now you add your users to your account like so: `!db -a <plataformID> <username>`");
+                    message.channel.sendMessage("User registered successfully! Now you can add your users to your account like so: `!db -a <plataformID> <username>`");
                 }
                 else {
                     message.channel.sendMessage("Beep Boop! You already have a registered account.");
+                }
+            }
+
+            else if (args_aux[0] == "") {
+                if (db[message.author.id]) {
+                    const embed = new Discord.RichEmbed()
+                        .setAuthor(message.author.username, "https://files.catbox.moe/84ngjv.png")
+                        .setColor(0xD63C58)
+                        .addField("Steam", db[message.author.id]["steam"])
+                        .addField("Battlenet", db[message.author.id]["battlenet"])
+                        .addField("Twitch", db[message.author.id]["twitch"])
+                        .addField("Reddit", db[message.author.id]["reddit"])
+                        .addField("Youtube", db[message.author.id]["youtube"])
+                        .addField("Faceit", db[message.author.id]["faceit"])
+                        .setFooter("requested by " + message.author.username, message.author.avatarURL);
+                    message.channel.sendEmbed(embed);
                 }
             }
             else {

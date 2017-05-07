@@ -14,16 +14,34 @@ class TwitchCommand extends commando.Command {
             name: 'twitch',
             group: 'social',
             memberName: 'twitch',
-            description: 'Check if twitch stream is live',
-            examples: ['twitch <twitchID>'],
+            description: 'Let your friends know about your twitch stream.',
+            examples: ['twitch [twitchID]'],
         });
     }
 
     async run(message, args) {
+        delete require.cache[require.resolve('../../db.json')];
+        const db = require('../../db.json');
         const args_aux = args.split(" ");
-        const url = "https://api.twitch.tv/kraken/streams/" + args_aux[0] + "?oauth_token=" + config.twitchAPIkey;
+        let username = db[message.author.id]["twitch"];
+        const url = "https://api.twitch.tv/kraken/streams/" + username + "?oauth_token=" + config.twitchAPIkey;
 
-        getStats(url);
+        if (args_aux.length == 1 && args_aux[0] == '') {
+            if (username != null) {
+                getStats(url);
+            }
+            else {
+                message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
+            }
+        }
+        else if (args_aux.length == 1 && args_aux[0] != '') {
+            username = args_aux[0];
+            getStats(url);
+        }
+        else {
+            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+        }
+
 
         // ######################
         // # AUX FUNCTIONS HERE #
@@ -49,7 +67,7 @@ class TwitchCommand extends commando.Command {
                             '\nViews: ' + live.channel.views;
 
                         const embed = new Discord.RichEmbed()
-                            .setAuthor(live.channel.name, 'https://files.catbox.moe/w2dr5d.jpg')
+                            .setAuthor(live.channel.name, 'http://files.catbox.moe/qune20.png')
                             .setDescription(live.channel.status)
                             .setColor(0x6441A4)
                             .setURL(liveURL)
