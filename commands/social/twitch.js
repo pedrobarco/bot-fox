@@ -23,20 +23,22 @@ class TwitchCommand extends commando.Command {
         delete require.cache[require.resolve('../../db.json')];
         const db = require('../../db.json');
         const args_aux = args.split(" ");
-        let username = db[message.author.id]["twitch"];
-        const url = "https://api.twitch.tv/kraken/streams/" + username + "?oauth_token=" + config.twitchAPIkey;
 
-        if (args_aux.length == 1 && args_aux[0] == '') {
+        const username = db[message.author.id]["twitch"];
+        const url1 = "https://api.twitch.tv/kraken/streams/" + username + "?oauth_token=" + config.twitchAPIkey;
+        const url2 = "https://api.twitch.tv/kraken/streams/" + args_aux[0] + "?oauth_token=" + config.twitchAPIkey;
+
+
+        if (args_aux.length == 1 && args_aux[0] == "") {
             if (username != null) {
-                getStats(url);
+                getStats(url1);
             }
             else {
                 message.channel.sendMessage("Beep Boop! First add your reddit ID to database.");
             }
         }
-        else if (args_aux.length == 1 && args_aux[0] != '') {
-            username = args_aux[0];
-            getStats(url);
+        else if (args_aux.length == 1 && args_aux[0] != "") {
+            getStats(url2);
         }
         else {
             message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
