@@ -23,7 +23,16 @@ class RollCommand extends commando.Command {
         let roll;
 
         if (args_aux.length == 1) {
-            message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+            if (args_aux[0] === "-giveaway") {
+                const user = message.guild.members.filter(member => member.roles.size === 1 && member.user.presence.status !== "offline").random().user.username;
+                const embed = new Discord.RichEmbed()
+                    .setAuthor(user, 'https://files.catbox.moe/z99ldc.png')
+                    .setColor(0xb6f649)
+                    .setFooter('requested by ' + message.author.username, message.author.avatarURL);
+                message.channel.sendEmbed(embed);
+            } else {
+                message.channel.sendMessage("Beep Boop! Something went wrong... Use '!help' command to know more about this.");
+            }
         }
         else {
             if (args_aux.length == 2 && (!(isNaN(min) || isNaN(max)))) {
