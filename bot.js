@@ -2,10 +2,10 @@ const { CommandoClient, SQLiteProvider } = require('discord.js-commando')
 const sqlite = require('sqlite')
 const path = require('path')
 const oneLine = require('common-tags').oneLine
-const config = require('./settings')
+const config = require('./config')
 
 const client = new CommandoClient({
-  commandPrefix: '!',
+  commandPrefix: config.handler,
   owner: config.owner,
   disableEveryone: true,
   unknownCommandResponse: false

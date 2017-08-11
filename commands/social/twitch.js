@@ -5,7 +5,7 @@ let request = require('request');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const config = require('../../settings');
+const config = require('../../config');
 
 class TwitchCommand extends commando.Command {
 

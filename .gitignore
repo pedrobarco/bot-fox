@@ -42,7 +42,7 @@ jspm_packages
 # saved settings
 db.json
 discord_db
-settings.json
+config.json
 settings.sqlite3
 .eslintrc.json
 

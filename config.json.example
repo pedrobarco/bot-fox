@@ -1,0 +1,6 @@
+{
+	"token": "BOT_TOKEN",
+  "owner": "OWNER_ID",
+  "handler": "BOT_PREFIX",
+	"twitchAPIkey": "API_KEY"
+}

@@ -17,6 +17,7 @@ Fox is a CS:GO oriented discord bot. It's main purpose is to link user's faceit 
 ### TODO
 
 [ ] Standard JS Ruleset (in progress)
+
 [ ] HLTV.org
 
 ## Install & Setup
@@ -26,6 +27,8 @@ Fox is a CS:GO oriented discord bot. It's main purpose is to link user's faceit 
 ```bash
 git clone https://www.github.com/pedrobarco/bot-fox.git
 cd bot-fox/
+cp config.json.example config.json # make sure you edit config.json
+npm install
 node --harmony .
 ```
 
