@@ -6,21 +6,18 @@
 
 ## About
 
+Fox is a CS:GO oriented discord bot. It's main purpose is to link user's faceit accounts to their discord account so you can get your faceit stats as fast as it can possibly be!
+
 ### Bot Features
 
-- RNG
-- Game Stats (faceit)
-- DataBase (sqlite)
+- Roll (RNG)
+- Faceit Stats
+- User Stats
 
 ### TODO
 
-- [ ] Debugging Support
-- [ ] Music/Streaming
-- [ ] Social Media
-- [ ] Twitch
-- [ ] HLTV.org
-- [ ] Reddit
-- [ ] Steam
+[ ] Standard JS Ruleset (in progress)
+[ ] HLTV.org
 
 ## Install & Setup
 
