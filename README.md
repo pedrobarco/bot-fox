@@ -12,13 +12,13 @@ Fox is a CS:GO oriented discord bot. It's main purpose is to link user's faceit 
 
 - Roll (RNG)
 - Faceit Stats
-- User Stats
+- Bot Stats
 
 ### TODO
 
-[ ] Standard JS Ruleset (in progress)
-
-[ ] HLTV.org
+- [x] Standard JS Ruleset (in progress)
+- [ ] HLTV.org Match Calendar
+- [ ] CS:GO Config Database
 
 ## Install & Setup
 

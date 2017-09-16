@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+package-lock*
 
 # Runtime data
 pids
@@ -49,3 +50,4 @@ settings.sqlite3
 # intellij
 .idea/
 *.iml
+

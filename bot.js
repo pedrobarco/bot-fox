@@ -28,7 +28,8 @@ client
   .on('warn', console.warn)
   .on('debug', console.log)
   .on('ready', () => {
-    console.log(`Client ready; logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
+    client.user.setGame(`${config.handler}help for support`)
+    console.log(`Client ready. Logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
   })
   .on('disconnect', () => {
     console.warn('Disconnected!')
